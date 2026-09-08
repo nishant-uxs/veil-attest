@@ -6,7 +6,10 @@
 - **Deployer (unshielded):** `mn_addr_preprod1f6dnm935n5gaua6rm0fwd8legvn9mam5k8nrkwu8kknr4mqaf79qx5ggjy`
 - **Faucet:** https://midnight-tmnight-preprod.nethermind.dev/
 - **Faucet tx:** `007e6b1cdc34df455011d787a746bf7ed3f524b97e532ddca119513fb14da83301` (1000 tNight)
-- **Contract address:** _pending — complete after DUST registration + `npm run deploy -- --network preprod`_
+- **tNIGHT balance:** funded (1000 tNight received)
+- **NIGHT→DUST registration:** wallet shows UTXO `registeredForDustGeneration=true`
+- **Blocker:** `dust.balance()` stays `0` on the public Preprod indexer/wallet-sdk path, so fee payment cannot complete yet
+- **Contract address:** _pending — re-run `npm run deploy -- --network preprod` once DUST is visible (Lace Generate tDUST, or wait/resync)_
 
 Screenshot: `docs/screenshots/faucet-preprod-funded.png`
 
