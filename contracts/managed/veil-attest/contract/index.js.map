@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/veil-attest.compact", "compiler/standard-library.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;MA8BA,AAAA,mBAKC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAGD,AAAA,mBAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAGD,AAAA,mBAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;;;;;;;GACA;EA9CD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAsBA;;;;;;;;;yEAAyC;IACzC;;;;;;;;;yEAA0C;;;;;;;GAuBzC;EC9CD,AAAA,kBAAA;oEAAA;;;EDmBA,AAAA,eAAkC;;0DAAlC,YAAkC;;;;;;;;;;;;;;GAAA;EAWlC,AAAA,sBAKC;UAJO,OAAsB;UACtB,YAA6C,0BAAN,OAAK;IAClD;;;;;;;2HAA4B,YAAU;;yEAAtB;UAChB,KAAgB;;;;;6CAAI;;;;;;;;;;;kHAAgB;;;IAApC;;;;;;;2HAAA,KAAgB;;yEAAA;;GACjB;EAGD,AAAA,sBAEC;mCADQ;;;;;;;;;;;wGAAgB;GACxB;EAGD,AAAA,sBAEC;mCADQ;;;;;;;;;;;wGAAgB;GACxB;;;;;;;;;;;;;;;;IAvBD;qCAAA;;;;;;;;;;;0GAAyC;KAAA;IACzC;qCAAA;;;;;;;;;;;0GAA0C;KAAA;;;;;;;;;;"
+}
