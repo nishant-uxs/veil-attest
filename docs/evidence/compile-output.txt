@@ -1,0 +1,17 @@
+> veil-attest@0.1.0 compile
+> compact compile +0.31.1 contracts/veil-attest.compact contracts/managed/veil-attest
+
+Compiling 3 circuits:
+  - registerAttestation
+  - getAttestationCount
+  - getLatestCommitment
+
+Compiler: Compact 0.31.1 (language 0.23.0, runtime 0.16.0)
+
+Output: contracts/managed/veil-attest/
+  compiler/   contract-info.json, contract-manifest.json
+  keys/       getAttestationCount.prover|.verifier
+              getLatestCommitment.prover|.verifier
+              registerAttestation.prover|.verifier
+  zkir/       matching *.zkir / *.bzkir
+  contract/   generated Compact JS bindings

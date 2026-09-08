@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>VeilAttest — compact compile evidence</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+      background: radial-gradient(1200px 600px at 10% 0%, #1a2a22, #0b0f0d 55%);
+      color: #d7e6db;
+      padding: 40px 48px;
+    }
+    h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.02em; color: #9fd6b0; }
+    pre {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid #2a3d32;
+      background: #0f1512;
+      line-height: 1.55;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .ok { color: #7ddea0; }
+  </style>
+</head>
+<body>
+  <h1>VeilAttest — npm run compile</h1>
+  <pre>
+<span class="ok">$</span> npm run compile
+
+&gt; veil-attest@0.1.0 compile
+&gt; compact compile +0.31.1 contracts/veil-attest.compact contracts/managed/veil-attest
+
+Compiling 3 circuits:
+  - registerAttestation
+  - getAttestationCount
+  - getLatestCommitment
+
+Compiler: Compact 0.31.1 (language 0.23.0, runtime 0.16.0)
+
+Output: contracts/managed/veil-attest/
+  compiler/   contract-info.json, contract-manifest.json
+  keys/       getAttestationCount.prover|.verifier
+              getLatestCommitment.prover|.verifier
+              registerAttestation.prover|.verifier
+  zkir/       matching *.zkir / *.bzkir
+  contract/   generated Compact JS bindings
+
+<span class="ok">managed/ directory present — circuits + keys generated.</span>
+  </pre>
+</body>
+</html>

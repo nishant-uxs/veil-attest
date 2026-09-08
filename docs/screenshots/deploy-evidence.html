@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>VeilAttest — deploy address evidence</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin:0; min-height:100vh; font-family:"JetBrains Mono",Consolas,monospace;
+      background:radial-gradient(1000px 500px at 90% 10%,#1a2430,#0b0f0d 55%);
+      color:#d7e6db; padding:40px 48px; }
+    h1 { font-size:18px; color:#9fd6b0; }
+    pre { margin-top:24px; padding:24px; border:1px solid #2a3d32; background:#0f1512;
+      line-height:1.55; font-size:13px; white-space:pre-wrap; }
+    .ok { color:#7ddea0; } .addr { color:#f0d27a; }
+  </style>
+</head>
+<body>
+  <h1>VeilAttest — npm run deploy -- --network undeployed</h1>
+  <pre>
+<span class="ok">$</span> npm run deploy -- --network undeployed
+
+╔══════════════════════════════════════════════════════════════╗
+║  Deploy VeilAttest to undeployed
+╚══════════════════════════════════════════════════════════════╝
+
+  Wallet Address: mn_addr_undeployed1h3ssm5ru2t6eqy4g3she78zlxn96e36ms6pq996aduvmateh9p9sk96u7s
+  Balance: 250,000,000,000,000 tNight
+  DUST tokens ready!
+  Proof server ready!
+  Deploying contract...
+
+  <span class="ok">✅ Contract deployed successfully!</span>
+
+  Contract Address: <span class="addr">4bc7772135ed400d3b6404e558feaf0d69b1ff1e535316300b2005b73883fb1b</span>
+
+─── Deployment complete ────────────────────────────────────────
+
+Note: Level 1 requires Preview/Preprod. Preprod wallet is funded
+(mn_addr_preprod1f6dnm935n5gaua6rm0fwd8legvn9mam5k8nrkwu8kknr4mqaf79qx5ggjy)
+and NIGHT is registered for DUST; public dust sync still pending.
+  </pre>
+</body>
+</html>
