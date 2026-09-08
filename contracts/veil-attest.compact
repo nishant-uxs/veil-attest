@@ -1,0 +1,46 @@
+pragma language_version 0.23;
+
+import CompactStandardLibrary;
+
+/**
+ * VeilAttest — privacy-first attestation registry on Midnight.
+ *
+ * Public ledger (visible on-chain):
+ *   - attestationCount: how many attestations were registered
+ *   - latestCommitment: hash of the most recent private claim
+ *
+ * Private witness (never stored in clear on-chain):
+ *   - privateClaim(): the raw 32-byte claim supplied by the DApp
+ *
+ * disclose() is used only when writing the commitment derived from the
+ * private claim into public ledger state. The raw claim stays private.
+ */
+
+// Off-chain private input provided by the DApp at circuit-call time.
+witness privateClaim(): Bytes<32>;
+
+// Public ledger state
+export ledger attestationCount: Uint<64>;
+export ledger latestCommitment: Bytes<32>;
+
+/**
+ * Register an attestation.
+ * Hashes the private claim, discloses only the commitment publicly,
+ * and increments the public count.
+ */
+export circuit registerAttestation(): [] {
+  const claim = privateClaim();
+  const commitment = persistentHash<Bytes<32>>(claim);
+  latestCommitment = disclose(commitment);
+  attestationCount = (attestationCount + 1 as Uint<64>);
+}
+
+/** Read the public attestation count (no private data). */
+export circuit getAttestationCount(): Uint<64> {
+  return attestationCount;
+}
+
+/** Read the latest public commitment (no private data). */
+export circuit getLatestCommitment(): Bytes<32> {
+  return latestCommitment;
+}
