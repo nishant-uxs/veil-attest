@@ -12,7 +12,7 @@
 - **Deployed at:** `2026-09-28T19:10:14.797Z`
 - **Log:** `docs/evidence/preview-deploy.txt`
 
-Screenshot: `docs/screenshots/deploy-evidence.html` (Preview deploy success)
+Screenshot: `docs/screenshots/deploy-address.png` (Preview deploy success)
 
 ## Preprod (funded; DUST sync still lagging)
 
