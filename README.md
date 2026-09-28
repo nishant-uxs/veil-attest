@@ -65,9 +65,9 @@ sequenceDiagram
 
 ## Live demo
 
-- **Frontend (Vercel):** see latest URL in `docs/evidence/LEVEL2.md` after deploy
+- **Frontend (Vercel):** https://veil-attest.vercel.app
 - **Network:** Midnight Preprod
-- **Contract address:** see `docs/evidence/DEPLOYMENT.md`
+- **Contract address:** see `docs/evidence/DEPLOYMENT.md` (Preprod pending DUST accrual; Preview address available for reference)
 
 ## Requirements
 

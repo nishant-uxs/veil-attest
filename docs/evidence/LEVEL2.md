@@ -12,7 +12,7 @@ Contract wired to a frontend UI, with Lace connected on **Preprod**.
 | Circuit call from UI | `registerAttestation` via Midnight.js + Lace |
 | Observable privacy behavior | Claim form cleared after success; only commitment/count public |
 | Preprod contract address | _pending deploy — fill after `npm run deploy -- --network preprod`_ |
-| Live demo (Vercel) | _pending `vercel --prod`_ |
+| Live demo (Vercel) | https://veil-attest.vercel.app |
 | Demo video | Record: Connect Lace → Join → Register claim → show commitment |
 | ≥8 commits | See `git log` on `main` |
 | README privacy + mermaid | Done |
