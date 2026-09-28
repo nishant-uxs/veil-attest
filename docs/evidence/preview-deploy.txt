@@ -1,0 +1,52 @@
+
+> veil-attest@0.1.0 deploy
+> npx tsx src/deploy.ts --network preview
+
+
+╔══════════════════════════════════════════════════════════════╗
+║  Deploy VeilAttest to preview
+╚══════════════════════════════════════════════════════════════╝
+
+─── Wallet setup ───────────────────────────────────────────────
+
+  Creating wallet...
+  Syncing with network...
+  ℹ  This may take several minutes depending on network size.
+     RPC disconnection messages during sync are normal and can be safely ignored.
+
+2026-09-29 00:23:40        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preview.midnight.network/: 1000:: Normal Closure
+2026-09-29 00:23:40        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preview.midnight.network/: 1000:: Normal Closure
+  ⏳ Still syncing... (5s elapsed)     ⏳ Still syncing... (10s elapsed)     ⏳ Still syncing... (17s elapsed)     ⏳ Still syncing... (23s elapsed)     ⏳ Still syncing... (28s elapsed)     ⏳ Still syncing... (33s elapsed)     ⏳ Still syncing... (38s elapsed)     ⏳ Still syncing... (43s elapsed)     ⏳ Still syncing... (50s elapsed)     ⏳ Still syncing... (55s elapsed)     ⏳ Still syncing... (60s elapsed)     ⏳ Still syncing... (65s elapsed)     ⏳ Still syncing... (70s elapsed)     ⏳ Still syncing... (75s elapsed)     ⏳ Still syncing... (82s elapsed)     ⏳ Still syncing... (87s elapsed)     ⏳ Still syncing... (93s elapsed)     ⏳ Still syncing... (98s elapsed)     ⏳ Still syncing... (103s elapsed)     ⏳ Still syncing... (108s elapsed)     ⏳ Still syncing... (115s elapsed)     ⏳ Still syncing... (120s elapsed)     ⏳ Still syncing... (125s elapsed)     ⏳ Still syncing... (130s elapsed)     ⏳ Still syncing... (135s elapsed)     ⏳ Still syncing... (141s elapsed)     ⏳ Still syncing... (148s elapsed)     ⏳ Still syncing... (153s elapsed)     ⏳ Still syncing... (158s elapsed)     ⏳ Still syncing... (163s elapsed)     ⏳ Still syncing... (168s elapsed)     ⏳ Still syncing... (173s elapsed)     ⏳ Still syncing... (181s elapsed)     ⏳ Still syncing... (186s elapsed)     ⏳ Still syncing... (191s elapsed)   
+  ⚠ Strict sync timed out; continuing with latest wallet state.
+  ✓ Synced with network.                                      
+
+  Wallet Address: mn_addr_preview17s08gxcaq3sdpp5n7k6t2vu6jug3vvy3lnyfa626rwqypxa4xh4quw5p8u
+  Balance: 10,000,000,000 tNight
+
+─── DUST Token Setup ───────────────────────────────────────────
+
+  Waiting 180s for retroactive DUST accrual before registration...
+  Registering 2 NIGHT UTXOs for DUST generation...
+  Dust receiver: mn_dust_preview1w0zre33ajcjhgc64hq8azsd99cw7jqpq02cun5zu383kqhd6aduzyp6dknc
+  Registration submitted: 00d05ebaa95ff553df71d9589f3f5503952527e4771ef2cfb1bbeb9e00c549a3c7
+  Waiting for DUST tokens...
+  DUST tokens ready!
+
+─── Deploy Contract ────────────────────────────────────────────
+
+  Checking proof server...
+  Proof server ready!                                 
+  Setting up providers...
+  Generating DUST... done.
+  Deploying contract...
+
+  ✅ Contract deployed successfully!
+
+  Contract Address: 8a9c34f505b2adf457da53a9ab24eee27495d461f2eecd03939c07288952001c
+
+  Saved to .midnight-state.json
+
+─── Deployment complete ────────────────────────────────────────
+
+  Next: npm run cli
+

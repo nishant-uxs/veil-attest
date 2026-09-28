@@ -17,6 +17,8 @@ import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-p
 import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-private-state-provider';
 import { NodeZkConfigProvider } from '@midnight-ntwrk/midnight-js-node-zk-config-provider';
 import { CompiledContract } from '@midnight-ntwrk/midnight-js-protocol/compact-js';
+import { DustAddress, MidnightBech32m } from '@midnight-ntwrk/wallet-sdk';
+import { getNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import { witnesses } from './witnesses.js';
 
 // @ts-expect-error Required for wallet sync
@@ -261,13 +263,31 @@ async function main() {
   const unregisteredUtxos = dustState.unshielded.availableCoins.filter(
     (c: any) => !c.meta?.registeredForDustGeneration,
   );
-  if (unregisteredUtxos.length > 0) {
-    console.log(`  Registering ${unregisteredUtxos.length} NIGHT UTXOs for DUST generation...`);
+  // Prefer unregistered coins; if meta says registered but dust is still 0,
+  // force-register with an explicit DustAddress receiver (official docs path).
+  let coinsToRegister = unregisteredUtxos;
+  if (
+    coinsToRegister.length === 0 &&
+    dustState.dust.balance(new Date()) === 0n &&
+    dustState.unshielded.availableCoins.length > 0
+  ) {
+    console.log('  Meta says registered but dust=0 — force-registering with DustAddress receiver...');
+    coinsToRegister = dustState.unshielded.availableCoins;
+  }
+
+  if (coinsToRegister.length > 0) {
+    console.log(`  Registering ${coinsToRegister.length} NIGHT UTXOs for DUST generation...`);
     try {
+      const target = String(
+        DustAddress.encodePublicKey(getNetworkId(), dustState.dust.publicKey),
+      );
+      const dustReceiver = MidnightBech32m.parse(target).decode(DustAddress, getNetworkId());
+      console.log(`  Dust receiver: ${target}`);
       const recipe = await walletCtx.wallet.registerNightUtxosForDustGeneration(
-        unregisteredUtxos,
+        coinsToRegister,
         walletCtx.unshieldedKeystore.getPublicKey(),
         (payload) => walletCtx.unshieldedKeystore.signData(payload),
+        dustReceiver,
       );
       const finalized = await walletCtx.wallet.finalizeRecipe(recipe);
       const txId = await walletCtx.wallet.submitTransaction(finalized);

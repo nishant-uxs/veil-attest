@@ -63,10 +63,10 @@ docs/screenshots/
 - [x] Toolchain + `compact compile` → `managed/` with circuits and keys
 - [x] Passing test suite (`npm test`)
 - [x] README: setup, public vs private, product idea
-- [ ] Contract deployed on Preview or Preprod (see `docs/evidence/DEPLOYMENT.md`)
+- [x] Contract deployed on Preview (`8a9c34f505b2adf457da53a9ab24eee27495d461f2eecd03939c07288952001c` — see `docs/evidence/DEPLOYMENT.md`)
 - [x] Screenshot: compile output
-- [ ] Screenshot: deployed address on Preview/Preprod
-- [ ] ≥5 meaningful commits on a public GitHub repo
+- [x] Screenshot: deployed address on Preview (`docs/screenshots/deploy-evidence.html`)
+- [x] ≥5 meaningful commits on a public GitHub repo (https://github.com/nishant-uxs/veil-attest)
 
 ## License
 

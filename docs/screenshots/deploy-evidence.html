@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>VeilAttest — deploy address evidence</title>
+  <title>VeilAttest — Preview deploy address evidence</title>
   <style>
     :root { color-scheme: dark; }
     body { margin:0; min-height:100vh; font-family:"JetBrains Mono",Consolas,monospace;
@@ -15,29 +15,32 @@
   </style>
 </head>
 <body>
-  <h1>VeilAttest — npm run deploy -- --network undeployed</h1>
+  <h1>VeilAttest — npm run deploy -- --network preview</h1>
   <pre>
-<span class="ok">$</span> npm run deploy -- --network undeployed
+<span class="ok">$</span> npm run deploy -- --network preview
 
 ╔══════════════════════════════════════════════════════════════╗
-║  Deploy VeilAttest to undeployed
+║  Deploy VeilAttest to preview
 ╚══════════════════════════════════════════════════════════════╝
 
-  Wallet Address: mn_addr_undeployed1h3ssm5ru2t6eqy4g3she78zlxn96e36ms6pq996aduvmateh9p9sk96u7s
-  Balance: 250,000,000,000,000 tNight
+  Wallet Address: mn_addr_preview17s08gxcaq3sdpp5n7k6t2vu6jug3vvy3lnyfa626rwqypxa4xh4quw5p8u
+  Balance: 10,000,000,000 tNight
+
+  Registering 2 NIGHT UTXOs for DUST generation...
+  Dust receiver: mn_dust_preview1w0zre33ajcjhgc64hq8azsd99cw7jqpq02cun5zu383kqhd6aduzyp6dknc
+  Registration submitted: 00d05ebaa95ff553df71d9589f3f5503952527e4771ef2cfb1bbeb9e00c549a3c7
   DUST tokens ready!
   Proof server ready!
   Deploying contract...
 
   <span class="ok">✅ Contract deployed successfully!</span>
 
-  Contract Address: <span class="addr">4bc7772135ed400d3b6404e558feaf0d69b1ff1e535316300b2005b73883fb1b</span>
+  Contract Address: <span class="addr">8a9c34f505b2adf457da53a9ab24eee27495d461f2eecd03939c07288952001c</span>
 
 ─── Deployment complete ────────────────────────────────────────
 
-Note: Level 1 requires Preview/Preprod. Preprod wallet is funded
-(mn_addr_preprod1f6dnm935n5gaua6rm0fwd8legvn9mam5k8nrkwu8kknr4mqaf79qx5ggjy)
-and NIGHT is registered for DUST; public dust sync still pending.
+DeployedAt: 2026-09-28T19:10:14.797Z
+Network: Midnight Preview
   </pre>
 </body>
 </html>
