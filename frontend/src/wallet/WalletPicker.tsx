@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { DetectedWallet } from "./midnightWallets";
 
 type Props = {
@@ -12,12 +13,29 @@ function WalletIcon({ wallet }: { wallet: DetectedWallet }) {
   if (wallet.icon) {
     return <img className="wallet-icon" src={wallet.icon} alt="" width={36} height={36} />;
   }
-  const label = /1am/i.test(wallet.name) ? "1AM" : /lace/i.test(wallet.name) ? "Lace" : wallet.name.slice(0, 2);
-  return <div className="wallet-icon fallback">{label}</div>;
+  const label = /1am/i.test(wallet.name)
+    ? "1AM"
+    : /lace/i.test(wallet.name)
+      ? "Lace"
+      : wallet.name.slice(0, 2).toUpperCase();
+  return (
+    <div className="wallet-icon fallback" aria-hidden>
+      {label}
+    </div>
+  );
 }
 
 /** Stellar-style multi-wallet picker for Midnight (1AM, Lace, …). */
 export function WalletPicker({ open, wallets, connecting, onSelect, onClose }: Props) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
@@ -26,17 +44,18 @@ export function WalletPicker({ open, wallets, connecting, onSelect, onClose }: P
         className="modal-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Choose Midnight wallet"
+        aria-labelledby="wallet-picker-title"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-head">
-          <h2>Connect wallet</h2>
+          <h2 id="wallet-picker-title">Connect wallet</h2>
           <button type="button" className="btn btn-ghost" onClick={onClose} aria-label="Close">
             ✕
           </button>
         </div>
         <p className="lead">
-          Choose a Midnight wallet (same pattern as Freighter / xBull on Stellar). 1AM and Lace both work on Preprod.
+          Choose a Midnight wallet (same pattern as Freighter / xBull on Stellar). 1AM and Lace both
+          work on Preprod.
         </p>
 
         {wallets.length === 0 ? (

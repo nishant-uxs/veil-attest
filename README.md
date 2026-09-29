@@ -112,7 +112,9 @@ sequenceDiagram
 
 ### Tests (≥3 passing)
 
-See also [`docs/screenshots/tests-passing.html`](docs/screenshots/tests-passing.html) and [`docs/evidence/test-output.txt`](docs/evidence/test-output.txt).
+![Vitest — 10 tests passed](docs/screenshots/tests-passing.png)
+
+Also: [`docs/screenshots/tests-passing.html`](docs/screenshots/tests-passing.html) · [`docs/evidence/test-output.txt`](docs/evidence/test-output.txt)
 
 ## Requirements
 
@@ -153,7 +155,7 @@ CI workflow (`.github/workflows/ci.yml`) on every push/PR to `main`:
 2. `npm test`
 3. `frontend` production `npm run build`
 
-Screenshot of passing tests: `docs/screenshots/tests-passing.html`
+Screenshot of passing tests: `docs/screenshots/tests-passing.png` (`npm test` → **10 passed**)
 
 ## Project layout
 

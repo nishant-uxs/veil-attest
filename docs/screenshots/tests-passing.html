@@ -12,24 +12,16 @@
   </style>
 </head>
 <body>
-  <h1>VeilAttest — <span class="ok">6 tests passed</span></h1>
-  <p class="meta">Command: <code>npm test</code> (Vitest) · Captured for First Quarter submission · Local run mirrors CI</p>
+  <h1>VeilAttest — <span class="ok">10 tests passed</span></h1>
+  <p class="meta">Command: <code>npm test</code> (Vitest) · First Quarter submission evidence</p>
   <pre>
  RUN  v3.2.7
 
- ✓ tests/veil-attest.test.ts (6 tests) 67ms
-   ✓ VeilAttest managed artifacts
-     ✓ has compiler, contract, keys, and zkir directories
-     ✓ lists three circuits in contract-info.json
-     ✓ generated prover/verifier keys for each circuit
-   ✓ VeilAttest contract runtime
-     ✓ starts with zero count and empty commitment
-     ✓ registerAttestation discloses a commitment and increments count
-     ✓ keeps incrementing on subsequent registrations
+ ✓ tests/claim-helpers.test.ts (4 tests)
+ ✓ tests/veil-attest.test.ts (6 tests)
 
- Test Files  1 passed (1)
-      Tests  6 passed (6)
-   Duration  1.89s
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
   </pre>
   <p class="meta">CI: https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml</p>
 </body>

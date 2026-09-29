@@ -22,7 +22,7 @@ Privacy-first Confidential Credentials dApp on Midnight Preprod: Lace / 1AM wall
 | Preprod contract address | `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f` |
 | Live demo (Vercel) | https://veil-attest.vercel.app |
 | Demo video (~1 min full flow) | https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing |
-| ≥3 tests passing | **6 passed** — `docs/screenshots/tests-passing.html` + `docs/evidence/test-output.txt` |
+| ≥3 tests passing | **10 passed** — `docs/screenshots/tests-passing.png` |
 | CI/CD workflow + passing runs | `.github/workflows/ci.yml` + badge on README |
 | Meaningful commits | See `git log` on `main` (≥10) |
 | README privacy + mermaid | Done |
