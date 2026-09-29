@@ -181,36 +181,36 @@ docs/screenshots/
 
 ## Evidence checklist
 
-### Submission checklist
-- [x] Public GitHub repository with complete README — https://github.com/nishant-uxs/veil-attest
-- [x] Live demo link — https://veil-attest.vercel.app
-- [x] Screenshot: test output (3+ tests passing) — `docs/screenshots/tests-passing.png` (**10 passed**)
-- [x] CI/CD badge or workflow file with passing runs — [![CI](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml/badge.svg)](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml)
-- [x] Demo video (1 minute) showing full functionality — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
-- [x] README “privacy model” section: what an observer can and cannot learn
-- [x] Product proposal (from the idea list) submitted for approval — **Confidential Credentials** · `docs/evidence/IDEA.md`
-- [x] Minimum 10 meaningful commits
-
-### Contract & toolchain
+### Level 1 — New Moon
 - [x] Toolchain + `compact compile` → `managed/` with circuits and keys
-- [x] Passing test suite (`npm test`, ≥3 tests)
-- [x] README: setup, privacy model, product proposal
-- [x] Contract deployed on Preview (reference) and Preprod (live demo)
-- [x] Screenshots in `docs/screenshots/`
+- [x] Passing test suite (`npm test`)
+- [x] README: setup, public vs private, product idea
+- [x] Contract deployed (Preview address recorded)
+- [x] Screenshots + meaningful commits
 
-### DApp & Preprod
+**Preview contract:** `8a9c34f505b2adf457da53a9ab24eee27495d461f2eecd03939c07288952001c`
+
+### Level 2 — Waxing Crescent
 - [x] Lace / 1AM connect / disconnect in frontend
 - [x] Circuit called from frontend (`registerAttestation`)
 - [x] Observable privacy behavior (plaintext cleared; commitment public)
-- [x] Contract on **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
-- [x] README privacy model + mermaid architecture
+- [x] Contract deployed to **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
+- [x] README privacy claim + mermaid architecture
 - [x] Live demo — https://veil-attest.vercel.app
 - [x] Demo video — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+- [x] ≥8 meaningful commits
 
-### Production hardening
-- [x] CI/CD workflow + badge (compile gate + tests + frontend build)
-- [x] Product proposal: Confidential Credentials (Identity/credentials)
-- [x] Idea draft: `docs/evidence/IDEA.md`
+### Level 3 — First Quarter
+- [x] Fully functional dApp using Midnight’s privacy model
+- [x] Minimum 3 tests passing — **10 passed** · `docs/screenshots/tests-passing.png`
+- [x] CI/CD pipeline (workflow + passing runs) — [![CI](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml/badge.svg)](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml)
+- [x] Approved idea from the list — **Confidential Credentials** · `docs/evidence/IDEA.md`
+- [x] Minimum 10 meaningful commits
+- [x] Public GitHub with complete README — https://github.com/nishant-uxs/veil-attest
+- [x] Live demo link — https://veil-attest.vercel.app
+- [x] Demo video (~1 min) — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+- [x] README privacy model: what an observer can / cannot learn
+- [x] Product proposal submitted for approval (Identity/credentials)
 
 ## License
 
