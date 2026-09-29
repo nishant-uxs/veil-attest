@@ -181,6 +181,16 @@ docs/screenshots/
 
 ## Evidence checklist
 
+### Submission checklist
+- [x] Public GitHub repository with complete README — https://github.com/nishant-uxs/veil-attest
+- [x] Live demo link — https://veil-attest.vercel.app
+- [x] Screenshot: test output (3+ tests passing) — `docs/screenshots/tests-passing.png` (**10 passed**)
+- [x] CI/CD badge or workflow file with passing runs — [![CI](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml/badge.svg)](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml)
+- [x] Demo video (1 minute) showing full functionality — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+- [x] README “privacy model” section: what an observer can and cannot learn
+- [x] Product proposal (from the idea list) submitted for approval — **Confidential Credentials** · `docs/evidence/IDEA.md`
+- [x] Minimum 10 meaningful commits
+
 ### Contract & toolchain
 - [x] Toolchain + `compact compile` → `managed/` with circuits and keys
 - [x] Passing test suite (`npm test`, ≥3 tests)
