@@ -5,6 +5,7 @@ import { WalletProvider, useWallet } from "./wallet/WalletContext";
 import { WalletPicker } from "./wallet/WalletPicker";
 import { ProvidersProvider, useProviders } from "./providers/ProvidersContext";
 import {
+  deployVeilContract,
   joinContract,
   readLedger,
   registerAttestation,
@@ -33,7 +34,13 @@ function AppInner() {
   } = useWallet();
   const { providers, flowMessage } = useProviders();
 
-  const [contractAddress, setContractAddress] = useState(DEFAULT_CONTRACT_ADDRESS);
+  const [contractAddress, setContractAddress] = useState(
+    () =>
+      DEFAULT_CONTRACT_ADDRESS ||
+      (typeof localStorage !== "undefined"
+        ? localStorage.getItem("veil-attest-preprod-contract") || ""
+        : ""),
+  );
   const [claimText, setClaimText] = useState("KYC:verified:acme-corp");
   const [joined, setJoined] = useState<FoundVeilContract | null>(null);
   const [count, setCount] = useState<string>("—");
@@ -47,9 +54,10 @@ function AppInner() {
   const claimHex = useMemo(() => bytesToHex(claimBytes), [claimBytes]);
   const walletLabel = snapshot?.walletName ?? "wallet";
 
-  const refreshLedger = async () => {
-    if (!providers || !contractAddress) return;
-    const ledger = await readLedger(providers, contractAddress);
+  const refreshLedger = async (addressOverride?: string) => {
+    const address = (addressOverride ?? contractAddress).trim();
+    if (!providers || !address) return;
+    const ledger = await readLedger(providers, address);
     if (!ledger) {
       setCount("unavailable");
       setCommitment("unavailable");
@@ -90,6 +98,32 @@ function AppInner() {
       setStatus(`${snapshot.walletName} connected on Preprod`);
     }
   }, [connected, snapshot?.walletName]);
+
+  const onDeploy = async () => {
+    if (!providers) {
+      setLocalError("Connect a wallet first so providers can initialize");
+      return;
+    }
+    setBusy(true);
+    setLocalError(null);
+    try {
+      setStatus("Deploying VeilAttest to Preprod via wallet…");
+      const { contract, address } = await deployVeilContract(providers, claimBytes);
+      setContractAddress(address);
+      setJoined(contract as unknown as FoundVeilContract);
+      try {
+        localStorage.setItem("veil-attest-preprod-contract", address);
+      } catch {
+        /* ignore */
+      }
+      await refreshLedger(address);
+      setStatus(`Deployed on Preprod: ${truncateMiddle(address, 12, 10)}`);
+    } catch (e) {
+      setLocalError(e instanceof Error ? e.message : "Deploy failed");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const onJoin = async () => {
     if (!providers) {
@@ -230,8 +264,21 @@ function AppInner() {
       </div>
 
       <section className="panel">
-        <h2>2. Join Preprod contract</h2>
-        <p className="lead">Paste the deployed Preprod address, then join before calling circuits.</p>
+        <h2>2. Deploy or join Preprod contract</h2>
+        <p className="lead">
+          Deploy a fresh VeilAttest instance with your connected wallet (pays fees in tDUST), or paste
+          an existing Preprod address and join.
+        </p>
+        <div className="row" style={{ marginBottom: 12 }}>
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={onDeploy}
+            disabled={busy || !connected}
+          >
+            {busy ? "Working…" : "Deploy new contract"}
+          </button>
+        </div>
         <label htmlFor="addr">Contract address</label>
         <input
           id="addr"
@@ -240,10 +287,10 @@ function AppInner() {
           placeholder="Preprod contract address"
         />
         <div className="row" style={{ marginTop: 12 }}>
-          <button className="btn btn-primary" type="button" onClick={onJoin} disabled={busy || !connected}>
+          <button className="btn btn-ghost" type="button" onClick={onJoin} disabled={busy || !connected}>
             {busy ? "Working…" : "Join contract"}
           </button>
-          {joined && <span className="pill ok">Joined</span>}
+          {joined && <span className="pill ok">Ready</span>}
         </div>
       </section>
 

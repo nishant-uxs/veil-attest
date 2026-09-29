@@ -21,6 +21,25 @@ const compiledContract: any = (CompiledContract.make("veil-attest", VeilAttest.C
 );
 
 export type FoundVeilContract = Awaited<ReturnType<typeof contracts.findDeployedContract>>;
+export type DeployedVeilContract = Awaited<ReturnType<typeof contracts.deployContract>>;
+
+export async function deployVeilContract(
+  providers: VeilProviders,
+  initialClaim: Uint8Array = emptyClaim(),
+): Promise<{ contract: DeployedVeilContract; address: string }> {
+  const initialPrivateState = createPrivateState(initialClaim);
+  await providers.privateStateProvider.set(PRIVATE_STATE_ID, initialPrivateState);
+
+  const contract = await contracts.deployContract(providers, {
+    compiledContract,
+    args: [],
+    privateStateId: PRIVATE_STATE_ID,
+    initialPrivateState,
+  });
+
+  const address = String(contract.deployTxData.public.contractAddress);
+  return { contract, address };
+}
 
 export async function joinContract(
   providers: VeilProviders,

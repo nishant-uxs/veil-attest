@@ -86,7 +86,7 @@ export function ProvidersProvider({ children }: { children: ReactNode }) {
         tx: ledger.Transaction<ledger.SignatureEnabled, ledger.Proof, ledger.PreBinding>,
         _ttl?: Date,
       ): Promise<ledger.FinalizedTransaction> {
-        setFlow("Signing with Lace…");
+        setFlow("Signing with wallet…");
         try {
           const serializedTx = toHex(tx.serialize());
           // Lace expects options as 2nd arg so extension messaging lands correctly.
