@@ -60,7 +60,7 @@ sequenceDiagram
   Circuit->>Ledger: disclose(commitment) + bump count
   Note over Ledger: Raw claim never stored
   Ledger-->>UI: attestationCount, latestCommitment
-  UI->>User: Clear plaintext; show public commitment
+  UI->>User: Clear plaintext and show public commitment
 ```
 
 ## Live demo
