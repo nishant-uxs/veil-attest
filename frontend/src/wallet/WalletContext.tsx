@@ -3,25 +3,35 @@ import {
   createElement,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
 import {
-  connectLace,
-  disconnectLace,
+  connectMidnightWallet,
+  disconnectMidnightWallet,
   listWallets,
+  type DetectedWallet,
   type WalletSnapshot,
-} from "./lace";
+} from "./midnightWallets";
 
 type WalletContextValue = {
   connecting: boolean;
   connected: boolean;
   error: string | null;
   snapshot: WalletSnapshot | null;
+  wallets: DetectedWallet[];
   walletsDetected: number;
-  connect: (networkId?: string) => Promise<void>;
+  pickerOpen: boolean;
+  openPicker: () => void;
+  closePicker: () => void;
+  /** Connect a specific wallet by injection key (from listWallets). */
+  connect: (walletKey: string, networkId?: string) => Promise<void>;
+  /** Open picker if multiple wallets; auto-connect if exactly one. */
+  connectFlow: (networkId?: string) => Promise<void>;
   disconnect: () => void;
+  refreshWallets: () => void;
 };
 
 const WalletContext = createContext<WalletContextValue | null>(null);
@@ -30,13 +40,31 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [snapshot, setSnapshot] = useState<WalletSnapshot | null>(null);
+  const [wallets, setWallets] = useState<DetectedWallet[]>([]);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
-  const connect = useCallback(async (networkId = "preprod") => {
+  const refreshWallets = useCallback(() => {
+    setWallets(listWallets());
+  }, []);
+
+  useEffect(() => {
+    refreshWallets();
+    const t = window.setInterval(refreshWallets, 1500);
+    const onFocus = () => refreshWallets();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      window.clearInterval(t);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [refreshWallets]);
+
+  const connect = useCallback(async (walletKey: string, networkId = "preprod") => {
     setConnecting(true);
     setError(null);
     try {
-      const next = await connectLace(networkId);
+      const next = await connectMidnightWallet(walletKey, networkId);
       setSnapshot(next);
+      setPickerOpen(false);
     } catch (e) {
       setSnapshot(null);
       setError(e instanceof Error ? e.message : "Connect failed");
@@ -46,8 +74,25 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const connectFlow = useCallback(
+    async (networkId = "preprod") => {
+      const found = listWallets();
+      setWallets(found);
+      if (found.length === 0) {
+        setError("No Midnight wallet found. Install 1AM or Lace and unlock it.");
+        return;
+      }
+      if (found.length === 1) {
+        await connect(found[0].key, networkId);
+        return;
+      }
+      setPickerOpen(true);
+    },
+    [connect],
+  );
+
   const disconnect = useCallback(() => {
-    disconnectLace();
+    disconnectMidnightWallet();
     setSnapshot(null);
     setError(null);
   }, []);
@@ -58,11 +103,30 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       connected: !!snapshot?.connectedAPI,
       error,
       snapshot,
-      walletsDetected: listWallets().length,
+      wallets,
+      walletsDetected: wallets.length,
+      pickerOpen,
+      openPicker: () => {
+        refreshWallets();
+        setPickerOpen(true);
+      },
+      closePicker: () => setPickerOpen(false),
       connect,
+      connectFlow,
       disconnect,
+      refreshWallets,
     }),
-    [connecting, snapshot, error, connect, disconnect],
+    [
+      connecting,
+      snapshot,
+      error,
+      wallets,
+      pickerOpen,
+      connect,
+      connectFlow,
+      disconnect,
+      refreshWallets,
+    ],
   );
 
   return createElement(WalletContext.Provider, { value }, children);

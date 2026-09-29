@@ -238,3 +238,112 @@ input:focus, textarea:focus {
   color: var(--muted);
   line-height: 1.55;
 }
+
+/* Multi-wallet picker (Stellar Freighter/xBull style) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(2, 8, 6, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+.modal-card {
+  width: min(440px, 100%);
+  background: #0f1c18;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.modal-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.wallet-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wallet-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.28);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+.wallet-row:hover:not(:disabled) {
+  border-color: rgba(62, 207, 142, 0.45);
+}
+.wallet-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.wallet-icon.fallback {
+  display: grid;
+  place-items: center;
+  background: rgba(62, 207, 142, 0.15);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.wallet-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.wallet-meta strong {
+  font-size: 0.95rem;
+}
+.wallet-meta em {
+  font-style: normal;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+.wallet-cta {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.wallet-empty {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.wallet-empty ul {
+  margin: 8px 0;
+  padding-left: 18px;
+}
+.wallet-empty a {
+  color: var(--accent);
+}
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+

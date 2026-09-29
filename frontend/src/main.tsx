@@ -2,6 +2,7 @@ import { StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { WalletProvider, useWallet } from "./wallet/WalletContext";
+import { WalletPicker } from "./wallet/WalletPicker";
 import { ProvidersProvider, useProviders } from "./providers/ProvidersContext";
 import {
   joinContract,
@@ -17,8 +18,19 @@ import {
 } from "./lib/types";
 
 function AppInner() {
-  const { connecting, connected, connect, disconnect, snapshot, error, walletsDetected } =
-    useWallet();
+  const {
+    connecting,
+    connected,
+    connect,
+    connectFlow,
+    disconnect,
+    snapshot,
+    error,
+    wallets,
+    walletsDetected,
+    pickerOpen,
+    closePicker,
+  } = useWallet();
   const { providers, flowMessage } = useProviders();
 
   const [contractAddress, setContractAddress] = useState(DEFAULT_CONTRACT_ADDRESS);
@@ -33,6 +45,7 @@ function AppInner() {
 
   const claimBytes = useMemo(() => stringToClaim(claimText), [claimText]);
   const claimHex = useMemo(() => bytesToHex(claimBytes), [claimBytes]);
+  const walletLabel = snapshot?.walletName ?? "wallet";
 
   const refreshLedger = async () => {
     if (!providers || !contractAddress) return;
@@ -55,16 +68,32 @@ function AppInner() {
   const onConnect = async () => {
     setLocalError(null);
     try {
-      await connect("preprod");
-      setStatus("Lace connected on Preprod");
+      await connectFlow("preprod");
+      setStatus("Wallet picker ready — choose 1AM or Lace on Preprod");
     } catch (e) {
       setLocalError(e instanceof Error ? e.message : "Connect failed");
     }
   };
 
+  const onPickWallet = async (walletKey: string) => {
+    setLocalError(null);
+    try {
+      await connect(walletKey, "preprod");
+      setStatus(`Connected on Preprod`);
+    } catch (e) {
+      setLocalError(e instanceof Error ? e.message : "Connect failed");
+    }
+  };
+
+  useEffect(() => {
+    if (connected && snapshot?.walletName) {
+      setStatus(`${snapshot.walletName} connected on Preprod`);
+    }
+  }, [connected, snapshot?.walletName]);
+
   const onJoin = async () => {
     if (!providers) {
-      setLocalError("Connect Lace first so providers can initialize");
+      setLocalError("Connect a wallet first so providers can initialize");
       return;
     }
     if (!contractAddress.trim()) {
@@ -97,7 +126,6 @@ function AppInner() {
       const result = await registerAttestation(providers, joined, claimBytes);
       setLastTx(result.txHash);
       setStatus("Circuit registerAttestation succeeded — claim stayed private");
-      // Clear plaintext from the form to make the privacy claim observable in the UI.
       setClaimText("");
       await refreshLedger();
     } catch (e) {
@@ -109,6 +137,14 @@ function AppInner() {
 
   return (
     <div className="app">
+      <WalletPicker
+        open={pickerOpen}
+        wallets={wallets}
+        connecting={connecting}
+        onSelect={(key) => void onPickWallet(key)}
+        onClose={closePicker}
+      />
+
       <header className="topbar">
         <div className="brand">
           <strong>VeilAttest</strong>
@@ -116,7 +152,11 @@ function AppInner() {
         </div>
         <div className="row">
           <span className={`pill ${connected ? "ok" : "warn"}`}>
-            {connected ? "Lace connected" : walletsDetected ? "Lace detected" : "Install Lace"}
+            {connected
+              ? `${walletLabel} connected`
+              : walletsDetected
+                ? `${walletsDetected} wallet(s) detected`
+                : "Install 1AM or Lace"}
           </span>
           {connected ? (
             <button className="btn btn-danger" onClick={disconnect} type="button">
@@ -124,7 +164,7 @@ function AppInner() {
             </button>
           ) : (
             <button className="btn btn-primary" onClick={onConnect} disabled={connecting} type="button">
-              {connecting ? "Connecting…" : "Connect Lace"}
+              {connecting ? "Connecting…" : "Connect wallet"}
             </button>
           )}
         </div>
@@ -133,15 +173,25 @@ function AppInner() {
       <section className="hero">
         <h1>Prove a claim. Never show it.</h1>
         <p>
-          Type a private claim, call <code>registerAttestation</code> through Lace, and watch only
-          the commitment + count land on Preprod. The plaintext never becomes public ledger state.
+          Connect <strong>1AM</strong> or <strong>Lace</strong>, call{" "}
+          <code>registerAttestation</code>, and watch only the commitment + count land on Preprod.
+          The plaintext never becomes public ledger state.
         </p>
       </section>
 
       <div className="grid-2">
         <section className="panel">
           <h2>1. Wallet</h2>
-          <p className="lead">Connect / disconnect Lace on Preprod. Proof server URI comes from Lace configuration.</p>
+          <p className="lead">
+            Multi-wallet connect (Stellar-style): pick 1AM or Lace on Preprod. Service URIs come from
+            the connected wallet.
+          </p>
+          {snapshot?.walletName && (
+            <div className="stat">
+              <em>Connected wallet</em>
+              <div className="mono">{snapshot.walletName}</div>
+            </div>
+          )}
           {snapshot?.unshieldedAddress && (
             <div className="stat">
               <em>Unshielded address</em>
@@ -225,9 +275,7 @@ function AppInner() {
             Call registerAttestation
           </button>
         </div>
-        {lastTx && (
-          <div className="ok-msg mono">tx: {lastTx}</div>
-        )}
+        {lastTx && <div className="ok-msg mono">tx: {lastTx}</div>}
       </section>
 
       <section className="panel">
