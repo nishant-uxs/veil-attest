@@ -1,6 +1,6 @@
 # Deployment evidence
 
-## Preview (Level 1 — deployed)
+## Preview (deployed)
 
 - **Network:** Midnight Preview
 - **Deployer (unshielded):** `mn_addr_preview17s08gxcaq3sdpp5n7k6t2vu6jug3vvy3lnyfa626rwqypxa4xh4quw5p8u`
@@ -14,7 +14,7 @@
 
 Screenshot: `docs/screenshots/deploy-address.png` (Preview deploy success)
 
-## Preprod (Level 2 — deployed)
+## Preprod (deployed — live demo)
 
 - **Network:** Midnight Preprod
 - **Contract address:** `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
@@ -25,7 +25,7 @@ Screenshot: `docs/screenshots/deploy-address.png` (Preview deploy success)
 - **Frontend join:** paste address on https://veil-attest.vercel.app → **Join contract**
 - **Demo video:** https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing
 
-Earlier note: CLI/SDK Preprod deploy hit DUST sync / error 138 for some wallets. Level 2 Preprod deploy completed via the connected wallet path in the frontend.
+CLI/SDK Preprod deploy hit DUST sync / error 138 for some wallets; the live Preprod instance was deployed via the connected wallet path in the frontend.
 
 ## Local undeployed (toolchain smoke test)
 

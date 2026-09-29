@@ -2,13 +2,13 @@
 
 Privacy-first attestation registry on **Midnight**. Register a private claim as a witness; only a commitment and a count become public ledger state.
 
-Built for **New Moon → Full**: Level 1 (New Moon) + Level 2 (Waxing Crescent) — Compact contract, Lace/1AM-connected frontend on Preprod, live demo.
+Compact contract, Lace/1AM-connected frontend on **Preprod**, live demo, and verifiable on-chain attestations.
 
 ## Initial product idea
 
 VeilAttest lets teams and individuals attest to business claims (KYC status, inventory counts, audit findings, membership eligibility) without putting the raw claim on-chain. The DApp supplies a 32-byte claim as a **private witness**. The circuit hashes that claim, uses `disclose()` only for the resulting commitment, and increments a public counter. Downstream apps can verify “an attestation happened and this commitment is the latest,” while the plaintext claim never leaves the prover’s private state.
 
-## Privacy claim (Level 2)
+## Privacy claim
 
 | Layer | What | Visibility |
 | --- | --- | --- |
@@ -103,7 +103,7 @@ Open http://localhost:5173 → **Connect wallet** → join contract → register
 ```
 contracts/veil-attest.compact
 contracts/managed/veil-attest/
-frontend/                 # 1AM/Lace + circuit UI (Level 2)
+frontend/                 # 1AM/Lace wallet + circuit UI
 src/deploy.ts
 src/witnesses.ts
 tests/veil-attest.test.ts
@@ -121,22 +121,21 @@ docs/screenshots/
 
 ## Evidence checklist
 
-### Level 1 — New Moon
+### Contract & toolchain
 - [x] Toolchain + `compact compile` → `managed/` with circuits and keys
 - [x] Passing test suite (`npm test`)
 - [x] README: setup, public vs private, product idea
-- [x] Contract deployed (Preview address recorded; Preprod for Level 2)
-- [x] Screenshots + ≥5 commits
+- [x] Contract deployed on Preview (reference) and Preprod (live demo)
+- [x] Screenshots in `docs/screenshots/`
 
-### Level 2 — Waxing Crescent
+### DApp & Preprod
 - [x] Lace / 1AM connect / disconnect in frontend
 - [x] Circuit called from frontend (`registerAttestation`)
 - [x] Observable privacy behavior (plaintext cleared; commitment public)
-- [x] Contract deployed to **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
+- [x] Contract on **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
 - [x] README privacy claim + mermaid architecture
-- [x] Live demo link (Vercel) — https://veil-attest.vercel.app
-- [x] Demo video: wallet connect + successful circuit call — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
-- [x] ≥8 meaningful commits
+- [x] Live demo — https://veil-attest.vercel.app
+- [x] Demo video — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
 
 ## License
 

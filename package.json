@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "VeilAttest \u2014 privacy-first attestation registry on Midnight (New Moon)",
+  "description": "VeilAttest — privacy-first attestation registry on Midnight",
   "license": "MIT",
   "scripts": {
     "compile": "compact compile +0.31.1 contracts/veil-attest.compact contracts/managed/veil-attest",
