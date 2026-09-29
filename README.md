@@ -16,6 +16,22 @@ Compact contract, Lace/1AM-connected frontend on **Preprod**, live demo, tests, 
 
 **Live stack.** Preprod contract `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`, DApp at https://veil-attest.vercel.app (1AM / Lace), Vitest suite + GitHub Actions CI.
 
+## Midnight.js SDK integration
+
+VeilAttest targets **Midnight.js 4.1.1**. The older checklist package `midnight-js-network-provider` is **not published** on npm for 4.x — network wiring is now `midnight-js-network-id` + wallet connector configuration + indexer/proof providers (same pattern as official Midnight examples).
+
+| Role | Package / module |
+| --- | --- |
+| DApp connector (Lace / 1AM) | `@midnight-ntwrk/dapp-connector-api` |
+| Network ID (Preprod) | `@midnight-ntwrk/midnight-js-network-id` + [`frontend/src/providers/networkProvider.ts`](frontend/src/providers/networkProvider.ts) |
+| Public ledger / indexer | `@midnight-ntwrk/midnight-js-indexer-public-data-provider` |
+| ZK prove | `@midnight-ntwrk/midnight-js-http-client-proof-provider` |
+| ZK assets | `@midnight-ntwrk/midnight-js-fetch-zk-config-provider` |
+| Contracts API | `@midnight-ntwrk/midnight-js` (`contracts.deployContract` / `findDeployedContract`) |
+| Compact runtime | `@midnight-ntwrk/compact-runtime` |
+
+Wallet connect calls `setNetworkId("preprod")`, then providers merge wallet `getConfiguration()` URIs with Preprod defaults so indexer + proof server always resolve.
+
 ## Privacy model
 
 | Layer | What | Visibility |

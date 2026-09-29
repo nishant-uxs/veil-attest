@@ -4,7 +4,7 @@ import type {
   Configuration,
   ConnectionStatus,
 } from "@midnight-ntwrk/dapp-connector-api";
-import { setNetworkId } from "@midnight-ntwrk/midnight-js-network-id";
+import { applyNetworkId } from "../providers/networkProvider";
 
 declare global {
   interface Window {
@@ -126,7 +126,7 @@ export async function connectMidnightWallet(
       ? String((status as { networkId?: string }).networkId ?? networkId)
       : networkId;
 
-  setNetworkId(connectedNetwork as "preprod");
+  applyNetworkId(connectedNetwork);
   localStorage.setItem(LS_KEY, detected.key);
   localStorage.setItem(LS_NAME, detected.name);
   localStorage.setItem(LS_NETWORK, connectedNetwork);

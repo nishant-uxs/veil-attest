@@ -15,6 +15,10 @@ import { fromHex, toHex } from "@midnight-ntwrk/compact-runtime";
 import { useWallet } from "../wallet/WalletContext";
 import { inMemoryPrivateStateProvider } from "./inMemoryPrivateStateProvider";
 import { noopProofClient, proofClient } from "./proofClient";
+import {
+  applyNetworkId,
+  resolveServiceConfig,
+} from "./networkProvider";
 import type { VeilAttestCircuits, VeilAttestPrivateState } from "../lib/types";
 import { PRIVATE_STATE_ID } from "../lib/types";
 
@@ -51,15 +55,15 @@ export function ProvidersProvider({ children }: { children: ReactNode }) {
   }, [snapshot?.connectedAPI]);
 
   const publicDataProvider = useMemo(() => {
-    const cfg = snapshot?.serviceUriConfig;
-    if (!cfg?.indexerUri || !cfg?.indexerWsUri) return undefined;
-    return indexerPublicDataProvider(cfg.indexerUri, cfg.indexerWsUri);
+    const endpoints = resolveServiceConfig(snapshot?.serviceUriConfig ?? null, "preprod");
+    applyNetworkId(endpoints.networkId);
+    return indexerPublicDataProvider(endpoints.indexerHttp, endpoints.indexerWs);
   }, [snapshot?.serviceUriConfig]);
 
   const proofProvider = useMemo(() => {
-    const uri = snapshot?.serviceUriConfig?.proverServerUri;
-    if (uri && zkConfigProvider) {
-      return proofClient(uri, zkConfigProvider, (s) => {
+    const endpoints = resolveServiceConfig(snapshot?.serviceUriConfig ?? null, "preprod");
+    if (endpoints.proofServer && zkConfigProvider) {
+      return proofClient(endpoints.proofServer, zkConfigProvider, (s) => {
         setFlow(s === "proveTxStarted" ? "Generating ZK proof…" : undefined);
       });
     }
@@ -127,7 +131,7 @@ export function ProvidersProvider({ children }: { children: ReactNode }) {
   }, [snapshot?.connectedAPI, setFlow]);
 
   const providers = useMemo(() => {
-    if (!publicDataProvider || !zkConfigProvider) return undefined;
+    if (!zkConfigProvider) return undefined;
     return {
       privateStateProvider,
       publicDataProvider,
