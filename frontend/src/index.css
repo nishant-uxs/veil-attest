@@ -32,7 +32,7 @@ button, input, textarea {
 .app {
   max-width: 980px;
   margin: 0 auto;
-  padding: 28px 20px 64px;
+  padding: 28px max(20px, env(safe-area-inset-right)) 64px max(20px, env(safe-area-inset-left));
 }
 
 .topbar {
@@ -41,6 +41,30 @@ button, input, textarea {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 36px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 12px 0 14px;
+  background: linear-gradient(180deg, rgba(7, 17, 15, 0.96), rgba(7, 17, 15, 0.88) 70%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-actions {
+  width: auto;
+}
+
+.stack-gap { margin-bottom: 12px; }
+.stack-gap-top { margin-top: 12px; }
+
+.hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.status-bar {
+  margin-top: 8px;
+  min-height: 2.4em;
 }
 
 .brand {
@@ -91,7 +115,33 @@ button, input, textarea {
 }
 @media (max-width: 800px) {
   .grid-2 { grid-template-columns: 1fr; }
-  .topbar { flex-direction: column; align-items: flex-start; }
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .app {
+    padding-top: 16px;
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+  }
+  .panel {
+    padding: 18px 16px 16px;
+    border-radius: 14px;
+  }
+  .hero h1 {
+    font-size: clamp(1.55rem, 7vw, 2.1rem);
+  }
+  .btn {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  .pill {
+    max-width: 100%;
+  }
 }
 
 .btn {

@@ -92,6 +92,28 @@ sequenceDiagram
 - **Demo video:** [veil--attest.mp4 (Google Drive)](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
 - **CI:** [GitHub Actions](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml) — managed artifact compile gate + `npm test` + frontend build on every push
 
+## Screenshots
+
+### DApp — desktop
+
+![VeilAttest DApp desktop](docs/screenshots/dapp-desktop.png)
+
+### DApp — mobile (responsive)
+
+![VeilAttest DApp mobile](docs/screenshots/dapp-mobile.png)
+
+### CI/CD — workflow runs
+
+![GitHub Actions CI workflow](docs/screenshots/ci-workflow.png)
+
+### CI/CD — green run detail
+
+![Green CI run](docs/screenshots/ci-run-green.png)
+
+### Tests (≥3 passing)
+
+See also [`docs/screenshots/tests-passing.html`](docs/screenshots/tests-passing.html) and [`docs/evidence/test-output.txt`](docs/evidence/test-output.txt).
+
 ## Requirements
 
 - Node.js **22+**
