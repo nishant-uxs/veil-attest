@@ -2,7 +2,7 @@
 
 Privacy-first attestation registry on **Midnight**. Register a private claim as a witness; only a commitment and a count become public ledger state.
 
-Built for **New Moon → Full**: Level 1 (New Moon) + Level 2 (Waxing Crescent) — Compact contract, Lace-connected frontend on Preprod, live demo.
+Built for **New Moon → Full**: Level 1 (New Moon) + Level 2 (Waxing Crescent) — Compact contract, Lace/1AM-connected frontend on Preprod, live demo.
 
 ## Initial product idea
 
@@ -24,7 +24,7 @@ VeilAttest lets teams and individuals attest to business claims (KYC status, inv
 flowchart LR
   subgraph Browser
     UI[VeilAttest React UI]
-    Lace[Lace Wallet]
+    Wallet[1AM or Lace]
     Priv[Private claim witness]
   end
   subgraph Midnight Preprod
@@ -68,7 +68,8 @@ sequenceDiagram
 - **Frontend (Vercel):** https://veil-attest.vercel.app
 - **Network:** Midnight Preprod
 - **Wallets:** multi-wallet picker — **1AM** or **Lace** (enumerates `window.midnight`)
-- **Contract address:** see `docs/evidence/DEPLOYMENT.md` (Preprod pending DUST accrual; Preview address available for reference)
+- **Preprod contract address:** `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
+- **Demo video:** [veil--attest.mp4 (Google Drive)](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
 
 ## Requirements
 
@@ -95,14 +96,14 @@ cp ../.env.example .env   # set VITE_CONTRACT_ADDRESS
 npm run dev
 ```
 
-Open http://localhost:5173 → **Connect Lace** → join contract → register a private claim.
+Open http://localhost:5173 → **Connect wallet** → join contract → register a private claim.
 
 ## Project layout
 
 ```
 contracts/veil-attest.compact
 contracts/managed/veil-attest/
-frontend/                 # Lace + circuit UI (Level 2)
+frontend/                 # 1AM/Lace + circuit UI (Level 2)
 src/deploy.ts
 src/witnesses.ts
 tests/veil-attest.test.ts
@@ -128,14 +129,14 @@ docs/screenshots/
 - [x] Screenshots + ≥5 commits
 
 ### Level 2 — Waxing Crescent
-- [x] Lace connect / disconnect in frontend
+- [x] Lace / 1AM connect / disconnect in frontend
 - [x] Circuit called from frontend (`registerAttestation`)
 - [x] Observable privacy behavior (plaintext cleared; commitment public)
-- [ ] Contract deployed to **Preprod** with verifiable address
+- [x] Contract deployed to **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
 - [x] README privacy claim + mermaid architecture
-- [ ] Live demo link (Vercel)
-- [ ] Demo video: wallet connect + successful circuit call
-- [x] ≥8 meaningful commits (ongoing)
+- [x] Live demo link (Vercel) — https://veil-attest.vercel.app
+- [x] Demo video: wallet connect + successful circuit call — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+- [x] ≥8 meaningful commits
 
 ## License
 

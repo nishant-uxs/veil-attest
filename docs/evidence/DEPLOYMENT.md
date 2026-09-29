@@ -14,17 +14,18 @@
 
 Screenshot: `docs/screenshots/deploy-address.png` (Preview deploy success)
 
-## Preprod (funded; DUST sync still lagging)
+## Preprod (Level 2 — deployed)
 
 - **Network:** Midnight Preprod
-- **Deployer (unshielded):** `mn_addr_preprod1f6dnm935n5gaua6rm0fwd8legvn9mam5k8nrkwu8kknr4mqaf79qx5ggjy`
-- **Faucet:** https://midnight-tmnight-preprod.nethermind.dev/
-- **Faucet tx:** `007e6b1cdc34df455011d787a746bf7ed3f524b97e532ddca119513fb14da83301` (1000 tNight)
-- **tNIGHT balance:** funded
-- **Blocker:** public Preprod path still hits fee/accrual issues (`dust.balance` / error 138) after registration — Preview deploy used for Level 1 instead
-- **Contract address:** _n/a — use Preview address above_
+- **Contract address:** `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
+- **Deploy tx:** `30b5bf2faa96e478b11e243e32d25070a246bffbf51efcf4c199d8c73c457db1`
+- **Block height:** `2760126`
+- **Verified:** Preprod indexer `contractAction(address)` returns `__typename: ContractDeploy` for this address
+- **Indexer:** https://indexer.preprod.midnight.network/api/v4/graphql
+- **Frontend join:** paste address on https://veil-attest.vercel.app → **Join contract**
+- **Demo video:** https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing
 
-Screenshot: `docs/screenshots/faucet-preprod-funded.png` (if present)
+Earlier note: CLI/SDK Preprod deploy hit DUST sync / error 138 for some wallets. Level 2 Preprod deploy completed via the connected wallet path in the frontend.
 
 ## Local undeployed (toolchain smoke test)
 

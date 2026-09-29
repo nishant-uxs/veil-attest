@@ -37,4 +37,4 @@ export function truncateMiddle(value: string, left = 10, right = 8): string {
 /** Preprod contract address — set via VITE_CONTRACT_ADDRESS after deploy. */
 export const DEFAULT_CONTRACT_ADDRESS =
   (import.meta.env.VITE_CONTRACT_ADDRESS as string | undefined)?.trim() ||
-  "";
+  "00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f";
