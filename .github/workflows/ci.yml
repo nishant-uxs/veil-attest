@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Compile gate (managed Compact artifacts)
+        run: |
+          set -euo pipefail
+          ROOT="contracts/managed/veil-attest"
+          for dir in compiler contract keys zkir; do
+            test -d "$ROOT/$dir" || { echo "missing $ROOT/$dir"; exit 1; }
+          done
+          node -e "
+            const fs = require('fs');
+            const info = JSON.parse(
+              fs.readFileSync('contracts/managed/veil-attest/compiler/contract-info.json', 'utf8')
+            );
+            const names = info.circuits.map((c) => c.name).sort();
+            const expected = ['getAttestationCount', 'getLatestCommitment', 'registerAttestation'];
+            if (JSON.stringify(names) !== JSON.stringify(expected)) {
+              console.error('circuit mismatch', names);
+              process.exit(1);
+            }
+            if (info['runtime-version'] !== '0.16.0') {
+              console.error('unexpected runtime', info['runtime-version']);
+              process.exit(1);
+            }
+            console.log('compile gate ok:', names.join(', '));
+          "
+
+      - name: Run contract tests
+        run: npm test
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
