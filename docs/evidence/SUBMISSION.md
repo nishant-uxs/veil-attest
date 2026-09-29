@@ -2,7 +2,13 @@
 
 ## Overview
 
-Contract wired to a frontend UI, with Lace / 1AM connected on **Preprod**.
+Privacy-first Confidential Credentials dApp on Midnight Preprod: Lace / 1AM wallet UI, circuit calls, tests, and CI.
+
+## Idea (Level 4 unlock)
+
+- **List item:** Confidential Credentials
+- **Form category:** Identity/credentials
+- **Paste text:** see [IDEA.md](./IDEA.md)
 
 ## Checklist status
 
@@ -11,25 +17,29 @@ Contract wired to a frontend UI, with Lace / 1AM connected on **Preprod**.
 | Lace / 1AM connect / disconnect | Implemented in `frontend/` |
 | Circuit call from UI | `registerAttestation` via Midnight.js + wallet |
 | Observable privacy behavior | Claim form cleared after success; only commitment/count public |
-| Preprod contract address | `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f` (indexer-verified `ContractDeploy`) |
+| Privacy model (observer can / cannot) | README **Privacy model** section |
+| Product proposal | README **Product proposal** — Confidential Credentials |
+| Preprod contract address | `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f` |
 | Live demo (Vercel) | https://veil-attest.vercel.app |
-| Demo video | https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing |
-| Meaningful commits | See `git log` on `main` |
-| README privacy + mermaid | Done (both diagrams render on GitHub) |
+| Demo video (~1 min full flow) | https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing |
+| ≥3 tests passing | **6 passed** — `docs/screenshots/tests-passing.html` + `docs/evidence/test-output.txt` |
+| CI/CD workflow + passing runs | `.github/workflows/ci.yml` + badge on README |
+| Meaningful commits | See `git log` on `main` (≥10) |
+| README privacy + mermaid | Done |
 
-## Demo video outline
+## Demo video outline (~1 minute)
 
-1. Open the Vercel demo URL in Chrome with 1AM or Lace (Midnight) installed.
-2. Set wallet network to **Preprod**; ensure tNIGHT + tDUST available.
-3. Click **Connect wallet** → pick 1AM or Lace → approve → show address.
-4. Paste Preprod contract address → **Join contract** (or **Deploy new contract**).
-5. Enter a private claim → **Call registerAttestation** → approve in wallet.
-6. Show: plaintext cleared, `attestationCount` incremented, `latestCommitment` updated.
-7. Click **Disconnect**.
+1. Open https://veil-attest.vercel.app with 1AM or Lace on **Preprod**.
+2. **Connect wallet** → approve → show address.
+3. Join Preprod contract `00b40b4e…ffbf8f` (or deploy).
+4. Enter private claim → **Call registerAttestation** → approve.
+5. Show: plaintext cleared, `attestationCount` + `latestCommitment` updated.
+6. **Disconnect**.
 
 ## Commands
 
 ```bash
-cd frontend && npm install && npm run build
-vercel --prod
+npm test
+cd frontend && npm ci && npm run build
+# CI also runs on every push to main
 ```
