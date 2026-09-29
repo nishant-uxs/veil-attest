@@ -51,10 +51,18 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     refreshWallets();
     const t = window.setInterval(refreshWallets, 1500);
     const onFocus = () => refreshWallets();
+    // Forward-looking: CAIP-282 / EIP-6963 announce (when wallets support it)
+    const onAnnounce = () => refreshWallets();
     window.addEventListener("focus", onFocus);
+    window.addEventListener("eip6963:announceProvider", onAnnounce as EventListener);
+    window.addEventListener("wallet:announceProvider", onAnnounce as EventListener);
+    window.dispatchEvent(new Event("eip6963:requestProvider"));
+    window.dispatchEvent(new Event("wallet:requestProvider"));
     return () => {
       window.clearInterval(t);
       window.removeEventListener("focus", onFocus);
+      window.removeEventListener("eip6963:announceProvider", onAnnounce as EventListener);
+      window.removeEventListener("wallet:announceProvider", onAnnounce as EventListener);
     };
   }, [refreshWallets]);
 
@@ -75,20 +83,21 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const connectFlow = useCallback(
-    async (networkId = "preprod") => {
+    async (_networkId = "preprod") => {
       const found = listWallets();
       setWallets(found);
       if (found.length === 0) {
         setError("No Midnight wallet found. Install 1AM or Lace and unlock it.");
+        // Still open picker so install links are visible.
+        setPickerOpen(true);
         return;
       }
-      if (found.length === 1) {
-        await connect(found[0].key, networkId);
-        return;
-      }
+      // Official DApp Connector guidance: let the user choose when wallets are present
+      // (even a single wallet — clearer multi-wallet UX for Lace + 1AM).
+      setError(null);
       setPickerOpen(true);
     },
-    [connect],
+    [],
   );
 
   const disconnect = useCallback(() => {

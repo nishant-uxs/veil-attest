@@ -45,10 +45,11 @@ function asRecord(w: InitialAPI): InitialAPI & { rdns?: string; icon?: string } 
   return w as InitialAPI & { rdns?: string; icon?: string };
 }
 
-/** Enumerate every Midnight wallet injected on window.midnight. */
+/** Enumerate every Midnight wallet injected on window.midnight (official DApp Connector pattern). */
 export function listWallets(): DetectedWallet[] {
   if (typeof window === "undefined" || !window.midnight) return [];
   const out: DetectedWallet[] = [];
+  // Never hardcode window.midnight.mnLace — keys are often UUIDs (docs.midnight.network).
   for (const key of Object.keys(window.midnight)) {
     const api = window.midnight[key];
     if (!api || typeof api.connect !== "function") continue;
@@ -57,20 +58,37 @@ export function listWallets(): DetectedWallet[] {
     out.push({
       key,
       name: api.name,
-      icon: meta.icon,
+      icon: sanitizeWalletIcon(meta.icon),
       apiVersion: api.apiVersion,
       rdns: meta.rdns,
       api,
     });
   }
-  // Prefer stable labels: 1AM / Lace first when present
+
+  // Deduplicate: same wallet can inject friendly key + UUID (Lace / 1AM).
+  const seen = new Set<string>();
+  const unique = out.filter((w) => {
+    const id = (w.rdns || w.name).toLowerCase();
+    if (seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+
   const rank = (n: string) => {
     const s = n.toLowerCase();
     if (s.includes("1am") || s === "1am") return 0;
     if (s.includes("lace")) return 1;
     return 2;
   };
-  return out.sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+  return unique.sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+}
+
+/** Only allow safe icon URLs (data: / https:) — Midnight docs warn about XSS via icon. */
+function sanitizeWalletIcon(icon?: string): string | undefined {
+  if (!icon || typeof icon !== "string") return undefined;
+  const v = icon.trim();
+  if (v.startsWith("data:image/") || v.startsWith("https://")) return v;
+  return undefined;
 }
 
 export function findWallet(keyOrName: string): DetectedWallet | undefined {

@@ -32,6 +32,19 @@ VeilAttest targets **Midnight.js 4.1.1**. The older checklist package `midnight-
 
 Wallet connect calls `setNetworkId("preprod")`, then providers merge wallet `getConfiguration()` URIs with Preprod defaults so indexer + proof server always resolve.
 
+## Multi-wallet (Lace + 1AM)
+
+Midnight’s official pattern: wallets inject under `window.midnight`, keyed by UUID or friendly id — **enumerate**, don’t hardcode `window.midnight.mnLace`.
+
+VeilAttest follows the [React wallet connector](https://docs.midnight.network/guides/react-wallet-connect) + [DApp connector API](https://docs.midnight.network/api-reference/dapp-connector) guidance:
+
+1. `listWallets()` scans `Object.keys(window.midnight)`
+2. UI picker shows each wallet’s `name` / safe `icon` / `apiVersion`
+3. User picks **1AM** or **Lace** → `connect("preprod")`
+4. Dedupes duplicate injections (friendly key + UUID)
+
+See `frontend/src/wallet/midnightWallets.ts` + `WalletPicker.tsx`.
+
 ## Privacy model
 
 | Layer | What | Visibility |
