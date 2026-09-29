@@ -33,10 +33,10 @@ flowchart LR
     Node[RPC Node]
     C[(VeilAttest Contract)]
   end
-  UI -->|connect / disconnect| Lace
+  UI -->|connect / disconnect| Wallet
   UI -->|privateClaim bytes| Priv
-  UI -->|registerAttestation circuit| Lace
-  Lace -->|balance + sign + submit| Node
+  UI -->|registerAttestation circuit| Wallet
+  Wallet -->|balance + sign + submit| Node
   UI -->|ZK prove| PS
   UI -->|read ledger| Idx
   Node --> C
@@ -47,13 +47,13 @@ flowchart LR
 sequenceDiagram
   participant User
   participant UI as Frontend
-  participant Lace
+  participant Wallet as 1AM or Lace
   participant Circuit as registerAttestation
   participant Ledger as Public ledger
   User->>UI: Enter private claim
-  User->>UI: Connect Lace (Preprod)
-  UI->>Lace: connect(preprod)
-  Lace-->>UI: addresses + service URIs
+  User->>UI: Connect wallet picker (1AM / Lace)
+  UI->>Wallet: connect(preprod)
+  Wallet-->>UI: addresses + service URIs
   User->>UI: Call registerAttestation
   UI->>Circuit: witness privateClaim (private)
   Circuit->>Circuit: persistentHash(claim)
@@ -67,6 +67,7 @@ sequenceDiagram
 
 - **Frontend (Vercel):** https://veil-attest.vercel.app
 - **Network:** Midnight Preprod
+- **Wallets:** multi-wallet picker — **1AM** or **Lace** (enumerates `window.midnight`)
 - **Contract address:** see `docs/evidence/DEPLOYMENT.md` (Preprod pending DUST accrual; Preview address available for reference)
 
 ## Requirements
@@ -74,7 +75,7 @@ sequenceDiagram
 - Node.js **22+**
 - Compact CLI — pin **`compact update 0.31.1`** (language 0.23 / runtime 0.16)
 - Docker (proof server on `:6300`)
-- Lace wallet (Midnight) configured for **Preprod**
+- **1AM** or **Lace** (Midnight) configured for **Preprod**
 - Faucet-funded unshielded address + tDUST for fees
 
 ## Quick start
