@@ -1,20 +1,40 @@
 # VeilAttest
 
+[![CI](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml/badge.svg)](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml)
+
 Privacy-first attestation registry on **Midnight**. Register a private claim as a witness; only a commitment and a count become public ledger state.
 
-Compact contract, Lace/1AM-connected frontend on **Preprod**, live demo, and verifiable on-chain attestations.
+Compact contract, Lace/1AM-connected frontend on **Preprod**, live demo, tests, and CI on every push.
 
-## Initial product idea
+## Product proposal
 
-VeilAttest lets teams and individuals attest to business claims (KYC status, inventory counts, audit findings, membership eligibility) without putting the raw claim on-chain. The DApp supplies a 32-byte claim as a **private witness**. The circuit hashes that claim, uses `disclose()` only for the resulting commitment, and increments a public counter. Downstream apps can verify “an attestation happened and this commitment is the latest,” while the plaintext claim never leaves the prover’s private state.
+**Idea-list item:** Confidential Credentials — prove a credential is valid without disclosing it.
 
-## Privacy claim
+**Problem.** Teams need verifiable attestations (KYC, membership, audit findings) but cannot put raw credentials on a public ledger.
+
+**Selective disclosure.** VeilAttest keeps the claim as a Compact **private witness**. The circuit hashes it and uses `disclose()` only for the resulting commitment, then bumps a public count. Downstream apps learn that a valid attestation happened and can read `latestCommitment` / `attestationCount` — not the plaintext credential.
+
+**Live stack.** Preprod contract `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`, DApp at https://veil-attest.vercel.app (1AM / Lace), Vitest suite + GitHub Actions CI.
+
+## Privacy model
 
 | Layer | What | Visibility |
 | --- | --- | --- |
 | **Private witness** `privateClaim()` | Raw 32-byte claim from the DApp | Never written to the public ledger in cleartext |
 | **Public ledger** `attestationCount` | Number of registrations | On-chain / indexer-visible |
 | **Public ledger** `latestCommitment` | `persistentHash(claim)` after `disclose()` | On-chain / indexer-visible |
+
+### What an observer can learn
+
+- That `registerAttestation` succeeded (count increases).
+- The latest **commitment** bytes (`persistentHash` of the claim), not the claim itself.
+- Wallet-facing public metadata the user chooses to show in the UI (e.g. unshielded address when connected).
+
+### What an observer cannot learn
+
+- The plaintext credential / claim bytes.
+- The semantic meaning of the attestation (KYC details, membership id, etc.).
+- Any private state left only in the DApp / prover after the form clears.
 
 **Observable privacy behavior in the UI:** after a successful `registerAttestation` call, the form clears the plaintext claim. You can still see `latestCommitment` and `attestationCount` update on Preprod — proof that something was attested without revealing what.
 
@@ -70,6 +90,7 @@ sequenceDiagram
 - **Wallets:** multi-wallet picker — **1AM** or **Lace** (enumerates `window.midnight`)
 - **Preprod contract address:** `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
 - **Demo video:** [veil--attest.mp4 (Google Drive)](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+- **CI:** [GitHub Actions](https://github.com/nishant-uxs/veil-attest/actions/workflows/ci.yml) — managed artifact compile gate + `npm test` + frontend build on every push
 
 ## Requirements
 
@@ -98,6 +119,20 @@ npm run dev
 
 Open http://localhost:5173 → **Connect wallet** → join contract → register a private claim.
 
+## Tests & CI
+
+```bash
+npm test          # Vitest — contract + managed artifact suite (≥6 tests)
+```
+
+CI workflow (`.github/workflows/ci.yml`) on every push/PR to `main`:
+
+1. Assert committed Compact managed artifacts (`compiler` / `contract` / `keys` / `zkir`)
+2. `npm test`
+3. `frontend` production `npm run build`
+
+Screenshot of passing tests: `docs/screenshots/tests-passing.html`
+
 ## Project layout
 
 ```
@@ -107,6 +142,7 @@ frontend/                 # 1AM/Lace wallet + circuit UI
 src/deploy.ts
 src/witnesses.ts
 tests/veil-attest.test.ts
+.github/workflows/ci.yml
 docs/evidence/
 docs/screenshots/
 ```
@@ -123,8 +159,8 @@ docs/screenshots/
 
 ### Contract & toolchain
 - [x] Toolchain + `compact compile` → `managed/` with circuits and keys
-- [x] Passing test suite (`npm test`)
-- [x] README: setup, public vs private, product idea
+- [x] Passing test suite (`npm test`, ≥3 tests)
+- [x] README: setup, privacy model, product proposal
 - [x] Contract deployed on Preview (reference) and Preprod (live demo)
 - [x] Screenshots in `docs/screenshots/`
 
@@ -133,9 +169,14 @@ docs/screenshots/
 - [x] Circuit called from frontend (`registerAttestation`)
 - [x] Observable privacy behavior (plaintext cleared; commitment public)
 - [x] Contract on **Preprod** — `00b40b4eb91eb8d6375c1215e1d7746cf066a19a57f795d2894c1cd11cffbf8f`
-- [x] README privacy claim + mermaid architecture
+- [x] README privacy model + mermaid architecture
 - [x] Live demo — https://veil-attest.vercel.app
 - [x] Demo video — [Drive link](https://drive.google.com/file/d/1Gpf3KFH0XVrotMhKWadB_BfPEkMwIgVR/view?usp=sharing)
+
+### Production hardening
+- [x] CI/CD workflow + badge (compile gate + tests + frontend build)
+- [x] Product proposal: Confidential Credentials (Identity/credentials)
+- [x] Idea draft: `docs/evidence/IDEA.md`
 
 ## License
 
